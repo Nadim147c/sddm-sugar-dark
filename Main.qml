@@ -17,6 +17,7 @@
 // along with Sugar Dark. If not, see <https://www.gnu.org/licenses/>.
 //
 
+import QtMultimedia 5.13
 import QtQuick 2.11
 import QtQuick.Layouts 1.11
 import QtQuick.Controls 2.4
@@ -198,22 +199,37 @@ Pane {
         Image {
             id: backgroundImage
 
+
+            MediaPlayer {
+                id: videoPlayer
+                source: config.VideoPath
+                autoPlay: true
+                muted: true
+                loops: -1
+            }
+
+            VideoOutput {
+                source: videoPlayer
+                height : config.ScreenHeight
+                width : config.ScreenWidth
+            }
+
             height: parent.height
             width: config.HaveFormBackground == "true" && config.FormPosition != "center" && config.PartialBlur != "true" ? parent.width - formBackground.width : parent.width
-            anchors.left: leftleft || 
-                          leftcenter ?
-                                formBackground.right : undefined
+            anchors.left: leftleft ||
+            leftcenter ?
+            formBackground.right : undefined
 
             anchors.right: rightright ||
-                           rightcenter ?
-                                formBackground.left : undefined
+            rightcenter ?
+            formBackground.left : undefined
 
             horizontalAlignment: config.BackgroundImageAlignment == "left" ?
-                                 Image.AlignLeft :
-                                 config.BackgroundImageAlignment == "right" ?
-                                 Image.AlignRight :
-                                 config.BackgroundImageAlignment == "center" ?
-                                 Image.AlignHCenter : undefined
+            Image.AlignLeft :
+            config.BackgroundImageAlignment == "right" ?
+            Image.AlignRight :
+            config.BackgroundImageAlignment == "center" ?
+            Image.AlignHCenter : undefined
 
             source: config.background || config.Background
             fillMode: config.ScaleImageCropped == "true" ? Image.PreserveAspectCrop : Image.PreserveAspectFit
